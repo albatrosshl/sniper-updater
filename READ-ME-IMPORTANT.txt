@@ -1,0 +1,99 @@
+# 🎯 3L-Sniper
+
+**Discord 3-Letter Username Sniper** — lightweight, multi-threaded, works with HTTP/SOCKS4 proxies.
+
+---
+
+## 💰 Donations
+
+If this tool helped you, consider donating to support development and keep proxy pools alive:
+
+| Currency | Address |
+|----------|---------|
+| **Bitcoin (BTC)** | `bc1qhftyqlaajz4memzmtsmawx0pfu35p94dvervzk` |
+| **Litecoin (LTC)** | `ltc1qskzjt0q8zyupmcgqng3a02p77zkcjfk0kwy4xh` |
+| **Solana (SOL)** | `CJRYVsSKoc2BEpSvXvdzzGQLtB5JggvPUQPZ9ZyAaizu` |
+| **Monero (XMR)** | `82a5Q5gcZsKan2Tnj2sUPyPGw6mSYWViSTYCuj7qWimB2a5BFBZ52emQFDCkQ6YfpF7XGYHANd4Kq9CusKijYiiTJ41YitL` |
+
+> Donations help pay for proxies, servers, and sweet tea ☕
+
+---
+
+## 🔥 Features
+
+- Checks all 46,656 possible 3-character usernames (letters + numbers)
+- Multi-threaded (fast)
+- Supports HTTP + SOCKS4 proxies
+- No external dependencies (pure Python)
+- Auto-saves captured usernames to `captured.txt`
+- Progress saves 
+---
+
+## 📁 Files
+
+| File | Description |
+|------|-------------|
+| `sniper.py` | Main script |
+| `tokens.txt` | Discord tokens (one per line) |
+| `proxies.txt` | Proxies (one per line, with `http://`) |
+| `names.txt` | All 46,656 combos (auto-generated) |
+| `captured.txt` | Saved username when found |
+| `READ-ME-IMPORTANT.md` | This file |
+
+---
+
+## 🚀 How to Use
+
+1. **Install Python** – Download from [python.org](https://python.org) and make sure to check **"Add Python to PATH"**.
+2. **Open Command Prompt** in the folder where `sniper.py` is located.
+3. **Run the script** (see Code Block 2 below for the exact command).
+4. **Select `[1]` Start Sniper** from the menu.
+
+---
+
+## 🧾 How to Get Your Discord Token (Step-by-Step)
+
+1. Open **Discord** in your **browser** (not the desktop app).
+2. Press **F12** to open Developer Tools.
+3. Click the **Network** tab at the top.
+4. In the filter bar, type:/api
+5. Press **Ctrl + R** to refresh the page.
+6. Click on any request that appears (e.g., `science`, `messages`, or `users/@me`).
+7. In the new panel on the right, scroll down to **Request Headers**.
+8. Look for the line that says: authorization 
+9. Copy **only** the long string after `authorization:`.
+10. Paste it into `tokens.txt` — one per line.
+
+> ⚠️ **Never share your token** — it gives full access to your account.
+
+---
+
+## 🌐 Proxy Guide
+
+You can use your own proxies. For faster, more reliable proxies
+consider donating to the addresses at the top of this document.
+
+
+Get fresh proxies from:
+- [free-proxy-list.net](https://free-proxy-list.net)
+- [sslproxies.org](https://sslproxies.org)
+
+---
+
+
+## ⚠️ Disclaimer
+
+This tool is for educational purposes only. Use at your own risk. Discord may rate-limit or ban accounts that abuse their API.
+
+---
+
+## 📬 Contact
+
+- Discord: `@oxydation_`
+
+---
+
+## 📜 License
+
+MIT — do whatever you want with it.
+
