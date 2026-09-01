@@ -25,15 +25,15 @@ def clear():
 def banner():
     clear()
     print(RED + BOLD + r"""
- $$$$$$\  $$\              $$$$$$\  $$\   $$\ $$$$$$\ $$$$$$$\  $$$$$$$$\ $$$$$$$\        $$\    $$\    $$\   
-$$ ___$$\ $$ |            $$  __$$\ $$$\  $$ |\_$$  _|$$  __$$\ $$  _____|$$  __$$\       $$ |   $$ | $$$$ |  
-\_/   $$ |$$ |            $$ /  \__|$$$$\ $$ |  $$ |  $$ |  $$ |$$ |      $$ |  $$ |      $$ |   $$ | \_$$ |  
-  $$$$$ / $$ |            \$$$$$$\  $$ $$\$$ |  $$ |  $$$$$$$  |$$$$$\    $$$$$$$  |      \$$\  $$  |   $$ |  
-  \___$$\ $$ |             \____$$\ $$ \$$$$ |  $$ |  $$  ____/ $$  __|   $$  __$$<        \$$\$$  /    $$ |  
-$$\   $$ |$$ |            $$\   $$ |$$ |\$$$ |  $$ |  $$ |      $$ |      $$ |  $$ |        \$$$  /     $$ |  
-\$$$$$$  |$$$$$$$$\       \$$$$$$  |$$ | \$$ |$$$$$$\ $$ |      $$$$$$$$\ $$ |  $$ |         \$  /$$\ $$$$$$\ 
- \______/ \________|       \______/ \__|  \__|\______|\__|      \________|\__|  \__|          \_/ \__|\______|
-                                                                                                              
+$$$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\   $$$$$$$\ $$$$$$$\  $$\   $$\  $$$$$$\  $$\   $$\  $$$$$$\  
+$$  __$$\ $$  __$$\ $$  _____|$$  __$$\ $$  _____|$$  __$$\ \$$\ $$  |$$  __$$\ \$$\ $$  |$$  __$$\ 
+$$ |  $$ |$$$$$$$$ |\$$$$$$\  $$ /  $$ |\$$$$$$\  $$ |  $$ | \$$$$  / $$ /  $$ | \$$$$  / $$ |  \__|
+$$ |  $$ |$$   ____| \____$$\ $$ |  $$ | \____$$\ $$ |  $$ | $$  $$<  $$ |  $$ | $$  $$<  $$ |      
+$$ |  $$ |\$$$$$$$\ $$$$$$$  |\$$$$$$$ |$$$$$$$  |$$ |  $$ |$$  /\$$\ $$$$$$$  |$$  /\$$\ $$ |      
+\__|  \__| \_______|\_______/  \____$$ |\_______/ \__|  \__|\__/  \__|$$  ____/ \__/  \__|\__|      
+                                    $$ |                              $$ |                          
+                                    $$ |                              $$ |                          
+                                    \__|                              \__|                         
 """ + RESET)
     print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
     print(RED + "   Discord 3-Letter Username Sniper  |  Commercial" + RESET)
@@ -47,6 +47,8 @@ $$\   $$ |$$ |            $$\   $$ |$$ |\$$$ |  $$ |  $$ |      $$ |      $$ |  
     print("")
     print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
     print("")
+
+    check_for_updates()	
 
 def load_file(filename):
     try:
@@ -89,6 +91,38 @@ def clear_captured():
     except FileNotFoundError:
         print(RED + "  [!] No captured.txt found" + RESET)
     time.sleep(1)
+
+import urllib.request  
+
+VERSION = "1.0.0"
+UPDATE_URL = "https://raw.githubusercontent.com/albatrosshl/sniper-updater/refs/heads/main/version.txt"
+SCRIPT_URL = "https://raw.githubusercontent.com/albatrosshl/sniper-updater/refs/heads/main/sniper.py"
+
+def check_for_updates():
+    try:
+        with urllib.request.urlopen(UPDATE_URL, timeout=5) as response:
+            latest_version = response.read().decode().strip()
+            if latest_version != VERSION:
+                print(RED + f"  [!] New version available: {latest_version}" + RESET)
+                print(RED + f"  [!] Your version: {VERSION}" + RESET)
+                choice = input(RED + "  Download update? (y/n): " + WHITE)
+                if choice.lower() == "y":
+                    download_update()
+            else:
+                print(RED + "  [✓] You are running the latest version." + RESET)
+    except Exception as e:
+        print(RED + f"  [!] Could not check for updates: {e}" + RESET)
+
+def download_update():
+    try:
+        with urllib.request.urlopen(SCRIPT_URL, timeout=10) as response:
+            new_code = response.read().decode()
+            with open("sniper.py", "w") as f:
+                f.write(new_code)
+            print(RED + "  [✓] Update downloaded. Please restart the script." + RESET)
+            os._exit(0)
+    except Exception as e:
+        print(RED + f"  [!] Update failed: {e}" + RESET)
 
 def donate():
     banner()
