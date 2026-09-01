@@ -9,9 +9,13 @@ import itertools
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-# ANSI colors
+# ===== COLORS =====
 RED = "\033[91m"
 PURPLE = "\033[35m"
+BLUE = "\033[94m"
+GRAY = "\033[90m"
+GREEN = "\033[92m"
+ORANGE = "\033[93m"
 WHITE = "\033[97m"
 BOLD = "\033[1m"
 RESET = "\033[0m"
@@ -21,17 +25,48 @@ TOKEN_FILE = "tokens.txt"
 PROXY_FILE = "proxies.txt"
 PROGRESS_FILE = "progress.txt"
 NAMES_FILE = "names4.txt"
+THEME_FILE = "theme.txt"
 
 VERSION = "1.0.1"
 UPDATE_URL = "https://raw.githubusercontent.com/albatrosshl/sniper-updater/refs/heads/main/version.txt"
 SCRIPT_URL = "https://raw.githubusercontent.com/albatrosshl/sniper-updater/refs/heads/main/sniper.py"
 
+# ===== THEME FUNCTIONS =====
+def load_theme():
+    try:
+        with open(THEME_FILE, "r") as f:
+            return f.read().strip()
+    except:
+        return "red"
+
+def save_theme(theme):
+    with open(THEME_FILE, "w") as f:
+        f.write(theme)
+
+def get_colors():
+    theme = load_theme()
+    if theme == "red":
+        return RED, PURPLE
+    elif theme == "blue":
+        return BLUE, GRAY
+    elif theme == "green":
+        return GREEN, GRAY
+    elif theme == "orange":
+        return ORANGE, WHITE
+    else:
+        return RED, PURPLE
+
+# ===== CORE FUNCTIONS =====
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 def banner():
     clear()
-    print(RED + BOLD + r"""
+    theme = load_theme()
+    primary, secondary = get_colors()
+
+    if theme == "red":
+        font = r"""
 $$$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\   $$$$$$$\ $$$$$$$\  $$\   $$\  $$$$$$\  $$\   $$\  $$$$$$\  
 $$  __$$\ $$  __$$\ $$  _____|$$  __$$\ $$  _____|$$  __$$\ \$$\ $$  |$$  __$$\ \$$\ $$  |$$  __$$\ 
 $$ |  $$ |$$$$$$$$ |\$$$$$$\  $$ /  $$ |\$$$$$$\  $$ |  $$ | \$$$$  / $$ /  $$ | \$$$$  / $$ |  \__|
@@ -41,20 +76,49 @@ $$ |  $$ |\$$$$$$$\ $$$$$$$  |\$$$$$$$ |$$$$$$$  |$$ |  $$ |$$  /\$$\ $$$$$$$  |
                                     $$ |                              $$ |                          
                                     $$ |                              $$ |                          
                                     \__|                              \__|                         
-""" + RESET)
-    print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
-    print(RED + "   Discord 4L Username Sniper  |  NESQSNXPR" + RESET)
-    print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
+"""
+    elif theme == "blue":
+        font = r"""
+____  ___  _________ __________  _  ______  _  _______
+  / __ \/ _ \/ ___/ __ `/ ___/ __ \| |/_/ __ \| |/_/ ___/
+ / / / /  __(__  ) /_/ (__  ) / / />  </ /_/ />  </ /    
+/_/ /_/\___/____/\__, /____/_/ /_/_/|_/ .___/_/|_/_/     
+                   /_/               /_/
+"""
+    elif theme == "green":
+        font = r"""
+ ____   ____   ____________ ______ ____ ___  ____________  __________ 
+ /    \_/ __ \ /  ___/ ____//  ___//    \\  \/  /\____ \  \/  /\_  __ \
+|   |  \  ___/ \___ < <_|  |\___ \|   |  \>    < |  |_> >    <  |  | \/
+|___|  /\___  >____  >__   /____  >___|  /__/\_ \|   __/__/\_ \ |__|   
+     \/     \/     \/   |__|    \/     \/      \/|__|        \/
+"""
+    else:  # orange
+        font = r"""
+.-. .-..----. .----. .----.  .----..-. .-..-.  .-..----..-.  .-..----. 
+|  `| || {_  { {__  /  {}  \{ {__  |  `| | \ \/ / | {}  }\ \/ / | {}  }
+| |\  || {__ .-._} }\      /.-._} }| |\  | / /\ \ | .--' / /\ \ | .-. \
+`-' `-'`----'`----'  `-----``----' `-' `-'`-'  `-'`-'   `-'  `-'`-' `-'
+"""
+
+    print(primary + BOLD + font + RESET)
+    print(primary + "  ─────────────────────────────────────────────────────────" + RESET)
+    print(primary + "   Discord Username Sniper  |  NESQSNXPR" + RESET)
+    print(primary + "  ─────────────────────────────────────────────────────────" + RESET)
     print("")
-    print(PURPLE + "  [1]" + RED + "  ▶  Start Sniper")
-    print(PURPLE + "  [2]" + RED + "  ℹ   View Status")
-    print(PURPLE + "  [3]" + RED + "  🗑   Clear captured.txt")
-    print(PURPLE + "  [4]" + RED + "  ✖   Exit")
-    print(PURPLE + "  [5]" + RED + "  💰  Donate")
+    print(primary + "  Current Mode: " + secondary + "4L" + RESET)
     print("")
-    print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
+    print(secondary + "  [1]" + primary + "  ▶  Start Sniper")
+    print(secondary + "  [2]" + primary + "  ℹ   View Status")
+    print(secondary + "  [3]" + primary + "  🗑   Clear captured.txt")
+    print(secondary + "  [4]" + primary + "  ✖   Exit")
+    print(secondary + "  [5]" + primary + "  💰  Donate")
+    print(secondary + "  [6]" + primary + "  🎨  Theme Selector")
+    print("")
+    print(primary + "  ─────────────────────────────────────────────────────────" + RESET)
     print("")
 
+# ===== UPDATE FUNCTIONS =====
 def check_for_updates():
     try:
         with urllib.request.urlopen(UPDATE_URL, timeout=5) as response:
@@ -74,13 +138,15 @@ def download_update():
     try:
         with urllib.request.urlopen(SCRIPT_URL, timeout=10) as response:
             new_code = response.read().decode("utf-8")
-            with open("sniper.py", "w", encoding="utf-8") as f:
+            with open("sniper_new.py", "w", encoding="utf-8") as f:
                 f.write(new_code)
-            print(RED + "  [✓] Update downloaded. Please restart the script." + RESET)
-            os._exit(0)
+        print(RED + "  [✓] Update downloaded as sniper_new.py" + RESET)
+        print(RED + "  [✓] Please close this script and run sniper_new.py" + RESET)
+        os._exit(0)
     except Exception as e:
         print(RED + f"  [!] Update failed: {e}" + RESET)
 
+# ===== FILE FUNCTIONS =====
 def load_file(filename):
     try:
         with open(filename, "r", encoding="utf-8") as f:
@@ -102,6 +168,7 @@ def save_progress(index):
     except:
         pass
 
+# ===== MENU FUNCTIONS =====
 def status():
     banner()
     tokens = load_file(TOKEN_FILE)
@@ -136,21 +203,34 @@ def donate():
     print(RED + "  ─────────────────────────────────────────────────────────" + RESET)
     input(RED + "  Press Enter to return..." + WHITE)
 
+def theme_selector():
+    banner()
+    primary, secondary = get_colors()
+    print(primary + "  ─────────────────────────────────────────────────────────" + RESET)
+    print(secondary + "  🎨 Select a theme:" + RESET)
+    print("")
+    print(primary + "  [1]" + secondary + "  Red / Purple (default)")
+    print(primary + "  [2]" + secondary + "  Blue / Gray")
+    print(primary + "  [3]" + secondary + "  Green / Black")
+    print(primary + "  [4]" + secondary + "  Orange / White")
+    print("")
+    choice = input(primary + "  └─► " + WHITE)
+    themes = ["red", "blue", "green", "orange"]
+    if choice in ["1", "2", "3", "4"]:
+        save_theme(themes[int(choice)-1])
+        print(primary + f"  [✓] Theme switched to {themes[int(choice)-1]}" + RESET)
+        time.sleep(1)
+    else:
+        print(primary + "  [!] Invalid choice" + RESET)
+        time.sleep(1)
+
+# ===== SNIPER =====
 def start_sniper():
     try:
         banner()
-
-        print(RED + "  [DEBUG] Current working folder: " + os.getcwd() + RESET)
-        print(RED + "  [DEBUG] Looking for tokens.txt..." + RESET)
         tokens = load_file(TOKEN_FILE)
-        print(RED + "  [DEBUG] Looking for proxies.txt..." + RESET)
         proxies = load_file(PROXY_FILE)
-        print(RED + "  [DEBUG] Looking for names4.txt..." + RESET)
         names = load_file(NAMES_FILE)
-
-        print(RED + f"  [DEBUG] Tokens loaded: {len(tokens)}" + RESET)
-        print(RED + f"  [DEBUG] Proxies loaded: {len(proxies)}" + RESET)
-        print(RED + f"  [DEBUG] Names loaded: {len(names)}" + RESET)
 
         if not tokens:
             print(RED + "  [!] No tokens found in tokens.txt" + RESET)
@@ -267,36 +347,10 @@ def start_sniper():
         traceback.print_exc()
         input(RED + "  Press Enter to exit..." + WHITE)
 
-    def worker(chunk):
-        for name in chunk:
-            if FOUND:
-                return
-            try_name(name)
-
-    THREADS = 50
-    remaining_names = names[CHECKED:]
-    chunk_size = max(1, len(remaining_names) // THREADS)
-    chunks = [remaining_names[i:i + chunk_size] for i in range(0, len(remaining_names), chunk_size)]
-    threads = []
-
-    for chunk in chunks:
-        t = threading.Thread(target=worker, args=(chunk,))
-        t.start()
-        threads.append(t)
-
-    for t in threads:
-        t.join()
-
-    if not FOUND:
-        print(f"\n{RED}  [!] No available 4L username found.{RESET}")
-        if os.path.exists(PROGRESS_FILE):
-            os.remove(PROGRESS_FILE)
-    input(RED + "  Press Enter to return..." + WHITE)
-
-# ---- MAIN LOOP ----
+# ===== MAIN LOOP =====
 while True:
     banner()
-    check_for_updates()
+    # check_for_updates()   # uncomment to enable auto-updater
     choice = input(PURPLE + "  └─► " + WHITE)
     if choice == "1":
         start_sniper()
@@ -310,6 +364,9 @@ while True:
         break
     elif choice == "5":
         donate()
+    elif choice == "6":
+        theme_selector()
+        continue
     else:
         print(RED + "  [!] Invalid option" + RESET)
         time.sleep(1)
